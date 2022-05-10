@@ -1,13 +1,6 @@
-import { Controller, Post, UseInterceptors, Request } from '@nestjs/common';
-import {
-  FilesInterceptor,
-  StorageFile,
-  UploadedFiles,
-} from '@blazity/nest-file-fastify';
-import * as fs from 'fs';
-import * as stream from 'stream';
+import { Controller, Post, UseInterceptors } from '@nestjs/common';
+import { FilesInterceptor, UploadedFiles } from '@blazity/nest-file-fastify';
 import { join } from 'path';
-import { extension } from 'mime-types';
 
 @Controller()
 export class AppController {
