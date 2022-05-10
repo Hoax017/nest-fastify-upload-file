@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Home</title>
+</head>
+<body>
+<h1>Home</h1>
+<input type="file" name="file" id="file" multiple /><br>
+<script>
+  const appendResult = (file) => {
+
+
+    const img = document.createElement("img");
+    img.style.maxWidth = "100px";
+    img.style.maxHeight = "100px";
+    img.src = file;
+    document.body.appendChild(img);
+
+    const span = document.createElement("span");
+    span.innerHTML = file;
+    document.body.appendChild(span);
+
+    document.body.appendChild(document.createElement("br"));
+  };
+
+
+  const fileInput = document.getElementById("file");
+  fileInput.addEventListener("change", function(e) {
+    const formData = new FormData();
+    Array.from(fileInput.files).map(file => formData.append("files", file));
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/upload");
+    xhr.send(formData);
+
+    // get returned data
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && (xhr.status === 201 || xhr.status === 200)) {
+        const data = JSON.parse(xhr.responseText);
+        console.log(data);
+        if (Array.isArray(data)) {
+          data.forEach(function(item) {
+            appendResult(item.url);
+          });
+        } else {
+          appendResult(data.url);
+        }
+      }
+    };
+  });
+</script>
+</body>
+</html>
